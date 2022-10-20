@@ -1,5 +1,5 @@
-#include "lexer.h"
 #include <stdio.h>
+#include "lexer.h"
 
 int main(int argc, char *argv[]) {
   FILE *f = fopen("test.s", "r");
