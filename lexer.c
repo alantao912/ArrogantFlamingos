@@ -160,20 +160,17 @@ Toklist *lex(FILE *src) {
             if (c != ' ') push_strbuff(char_stack, c);
           }
           
-          if (c == '"') {
-            /* Encountered an open quote. Start of string literal. */
-            state = STRING_LITERAL;
-            clear_strbuff(char_stack);
-          }
-        } else if (c == '"') {
-          clear_strbuff(char_stack);
-          state = STRING_LITERAL;
         } else if (is_numeric(c)) {
           set_strbuff(char_stack, c);
           state = NUM_LITERAL;
         } else if (c != ' ') {
           /* Pushing non space character to the buffer */
           push_strbuff(char_stack, c);
+        }
+        if (c == '"') {
+          /* Encountered an open quote. Start of string literal. */
+          clear_strbuff(char_stack);
+          state = STRING_LITERAL;
         }
         break;
       case STRING_LITERAL:

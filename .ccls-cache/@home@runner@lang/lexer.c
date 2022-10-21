@@ -133,10 +133,6 @@ Toklist *lex(FILE *src) {
       case REGULAR:
         if (is_interrupt_char(c) && char_stack->size) {
           int match = matches_reserved_symbol(char_stack);
-<<<<<<< HEAD
-          if (match == BLOCK_COMMENT_START) {
-            state = BLOCK_COMMENT;
-=======
           if (match == NO_MATCH) {
             /* Identifier has been found */
             char *identifier = strndup(char_stack->buff, char_stack->size);
@@ -146,7 +142,6 @@ Toklist *lex(FILE *src) {
             }
             Tok t = {0, identifier};
             push_toklist(toklist, t);
->>>>>>> b96977f6de02362c13a4fe64ed45a2053678219b
             clear_strbuff(char_stack);
             if (c != ' ') push_strbuff(char_stack, c);
           } else if (match == BLOCK_COMMENT_START) {
@@ -162,34 +157,9 @@ Toklist *lex(FILE *src) {
             Tok t = {match, NULL};
             push_toklist(toklist, t);
             clear_strbuff(char_stack);
-<<<<<<< HEAD
-            if (c != ' ') {
-              push_strbuff(char_stack, c);
-            }
-          } else if (c == ' ') {
-            if (char_stack->size) {
-              state = IDENTIFIER;
-              continue;
-            }
-          } else if (!is_interrupt_char(c)) {
-            /* char_stack holds an identifier */
-            push_strbuff(char_stack, c);
-            state = IDENTIFIER;
-          } else {
-            set_strbuff(char_stack, c);
-=======
             if (c != ' ') push_strbuff(char_stack, c);
->>>>>>> b96977f6de02362c13a4fe64ed45a2053678219b
           }
           
-          if (c == '"') {
-            /* Encountered an open quote. Start of string literal. */
-            state = STRING_LITERAL;
-            clear_strbuff(char_stack);
-          }
-        } else if (c == '"') {
-          clear_strbuff(char_stack);
-          state = STRING_LITERAL;
         } else if (is_numeric(c)) {
           set_strbuff(char_stack, c);
           state = NUM_LITERAL;
@@ -197,21 +167,14 @@ Toklist *lex(FILE *src) {
           /* Pushing non space character to the buffer */
           push_strbuff(char_stack, c);
         }
+        if (c == '"') {
+          /* Encountered an open quote. Start of string literal. */
+          clear_strbuff(char_stack);
+          state = STRING_LITERAL;
+        }
         break;
       case STRING_LITERAL:
         if (flags == 2) {
-<<<<<<< HEAD
-          if (c == 't') {
-            push_strbuff(char_stack, (char) 0x09);
-          } else if (c == 'n') {
-            push_strbuff(char_stack, (char) 0x0A);
-          } else if (c == 'r') {
-            push_strbuff(char_stack, (char) 0x0D);
-          } else if (c == '"') {
-            push_strbuff(char_stack, '"');
-          } else if (c == '\\') {
-            push_strbuff(char_stack, '\\');
-=======
           switch(c) {
             case 'a':
             push_strbuff(char_stack, (char) (0x07));
@@ -251,7 +214,6 @@ Toklist *lex(FILE *src) {
             break;
             default:
             push_strbuff(char_stack, c);
->>>>>>> b96977f6de02362c13a4fe64ed45a2053678219b
           }
           flags >>= 1;
         } else if (c == '\\') {
