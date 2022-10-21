@@ -1,18 +1,20 @@
 #include <stdio.h>
 #include "lexer.h"
 
+extern const char *reserved_symbols[];
+
 int main(int argc, char *argv[]) {
-  FILE *f = fopen("test.s", "r");
-  Toklist *toklist = lex(f);
-  
-  for (int i = 0; i < toklist->size; ++i) {
-    Tok t = toklist->toklist[i];
-    printf("Match number: %d. ", t.type);
-    if (t.value) {
-      printf("Associated value: %s, %d\n", (char *) t.value, strlen((char *) t.value));
-    } else {
-      printf("\n");
+  for (int i = 1; i < argc; ++i) {
+    FILE *f = fopen(argv[i], "r");
+    if (!f) {
+      printf("Failed to open file '%s'\n", argv[i]);
+      exit(-1);
     }
+    const toklist *toklist = lex(f);
+    fclose(f);
+    show_toklist(toklist);
+    free((struct toklist *) toklist);
   }
+  printf("Done\n");
   return 0;
 }

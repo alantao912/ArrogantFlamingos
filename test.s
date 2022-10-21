@@ -1,1 +1,1 @@
-interface while continue "hi" 123.123.
+while (str[i^=3]) {}
