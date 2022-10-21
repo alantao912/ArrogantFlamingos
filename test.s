@@ -1,1 +1,1 @@
-while interface/*continue*/ interface
+interface while continue "hi" 123.123.

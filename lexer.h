@@ -41,4 +41,6 @@ bool should_continue(const StrBuff *buff);
 
 bool is_interrupt_char(char c);
 
+inline bool is_alpha(char c);
+
 inline bool is_numeric(char c);
