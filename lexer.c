@@ -366,11 +366,10 @@ inline bool is_numeric(char c) { return c >= '0' && c <= '9'; }
 
 void show_toklist(const toklist *toklist) {
   printf("Showing toklist %d\n", toklist->size);
-  for (int i = 0; i < toklist->size; ++i) {
+  for (int i = 0; i < toklist->size - 1; ++i) {
     tok t = toklist->toklist[i];
     if (!t.value) {
-      if (t.type != END_OF_FILE)
-        printf("Reserved symbol: '%s' %d\n", reserved_symbols[t.type], t.type);
+      printf("Reserved symbol: '%s' %d\n", reserved_symbols[t.type], t.type);
     } else if (t.type == 0) {
       printf("Identifier: '%s'\n", (char *) t.value);
     } else if (t.type == 1) {
