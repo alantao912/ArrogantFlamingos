@@ -23,15 +23,17 @@ typedef struct StrBuff {
 
 StrBuff *init_strbuff();
 
-inline void push_strbuff(StrBuff *buff, char c);
+static inline void push_strbuff(StrBuff *buff, char c);
 
-inline void pop_strbuff(StrBuff *buff);
+static inline void pop_strbuff(StrBuff *buff);
 
-inline void set_strbuff(StrBuff *buff, char c);
+static inline void set_strbuff(StrBuff *buff, char c);
 
-inline void clear_strbuff(StrBuff *buff);
+static inline void clear_strbuff(StrBuff *buff);
 
-inline void push_toklist(toklist *toklist, tok t);
+static inline void push_toklist(toklist *toklist, tok t);
+
+char *strndup(const char *src, size_t size);
 
 toklist *lex(FILE *src);
 
@@ -43,8 +45,8 @@ bool is_interrupt_char(char c);
 
 bool is_in(char c, const char set[]);
 
-inline bool is_alpha(char c);
+static inline bool is_alpha(char c);
 
-inline bool is_numeric(char c);
+static inline bool is_numeric(char c);
 
 void show_toklist(const toklist *toklist);

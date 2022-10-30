@@ -2,6 +2,8 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
+#include <stdlib.h>
 
 /**
   Author(s): Alan Tao
@@ -114,6 +116,16 @@ inline void push_toklist(toklist *toklist, tok t) {
   ++toklist->size;
 }
 
+char *strndup(const char *src, size_t size) {
+  size_t len = strnlen (src, size);
+  char *new = malloc (len + 1);
+  if (new == NULL) {
+    return NULL;
+  }
+  new[len] = '\0';
+  return memcpy (new, src, len);
+}
+
 toklist *lex(FILE *src) {
   toklist *toklist = init_toklist();
   const int chunk_size = 1024;
@@ -125,8 +137,8 @@ toklist *lex(FILE *src) {
   buff[chunk_size + 1] = 0;
   StrBuff *char_stack = init_strbuff();
 
-  mode_t state = REGULAR;
-  u_int8_t flags = 1;
+  enum mode state = REGULAR;
+  uint8_t flags = 1;
 
   size_t n;
   while ((n = fread(buff, 1, chunk_size, src)) != 0) {
